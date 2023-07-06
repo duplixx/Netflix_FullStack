@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const url="mongodb://duplix:duplix123@ac-hjl9uqf-shard-00-00.wx2bjff.mongodb.net:27017,ac-hjl9uqf-shard-00-01.wx2bjff.mongodb.net:27017,ac-hjl9uqf-shard-00-02.wx2bjff.mongodb.net:27017/?ssl=true&replicaSet=atlas-8zx16b-shard-0&authSource=admin&retryWrites=true&w=majority"
+const url="mongodb+srv://duplix:duplix123@cluster0.wx2bjff.mongodb.net/?retryWrites=true&w=majority"
+
 const userRoutes=require('./routes/userRoutes');
 const app = express();
 

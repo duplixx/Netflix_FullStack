@@ -3,10 +3,12 @@ const User = require("../models/userModel");
 module.exports.addTolikedMovies = async (req, res) => {
   
   try {
-    const email=req.body;
-    const data = req.body;
-    if (!email || !data) {
-      return res.status(400).json({ msg: "Email and data fields are required" });
+    const { email, data } = req.body;
+    if (!email) {
+      return res.status(400).json({ msg: "Email required" });
+    }
+    if (!data) {
+      return res.status(400).json({ msg: "Data field is required" });
     }
     const user = await User.findOne({ email });
     if (user) {
@@ -33,3 +35,46 @@ module.exports.addTolikedMovies = async (req, res) => {
     return res.json({ msg:error.message});
   }
 };
+module.exports.getLikedMovies = async (req, res) => {
+  try{
+    const {email}=req.params;
+    const user=await User.findOne({email});
+    if(user){
+      return res.json({msg:"Success",movies:user.likedMovies})
+    }else{
+      return res.json({msg:"User not found"})
+    };
+  }
+  catch(err){
+    return res.json({msg:err.message})
+  }
+};
+module.exports.removeFromLikedMovies = async (req, res) => {
+    try{
+      const {email,movieId}=req.body;
+      const user=await User.findOne({email});
+      if(user){
+        if(!movieIndex){
+          return res.json(400,{msg:"Movie not found"})
+        }
+        const {likedMovies}=user;
+        const movieIndex=likedMovies.findIndex(({id})=>id===movieId);
+        likedMovies.splice(movieIndex,1);
+          await User.findByIdAndUpdate(
+            user._id,
+            {
+              likedMovies: [...likedMovies],
+            },
+            { new: true }
+          );
+          return res.json({msg:"Success",movies:user.likedMovies});
+        
+      }
+    }
+  catch(err){
+    return res.json({msg:err.message})
+  }
+
+  }
+
+

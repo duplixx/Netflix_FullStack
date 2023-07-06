@@ -6,6 +6,8 @@ import Movies from './pages/movies'
 import Player from './pages/Player'
 import Signup from './pages/signup'
 import Tvshows from './pages/tvshows'
+import MyList from './pages/mylist'
+
 
 export default function App() {
   return (
@@ -18,6 +20,7 @@ export default function App() {
       <Route path="*" element={<h1>404 Not Found</h1>} />
       <Route exact path="/movies" element={<Movies />} />
       <Route exact path="/tvshows" element={<Tvshows />} />
+      <Route exact path="/mylists" element={<MyList />} />
     </Routes>
     </Router>
       

@@ -10,13 +10,13 @@ import { BsCheck } from "react-icons/bs";
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../utils/firebase.config';
 import axios from 'axios';
+import { removeMovieFromLiked } from '../store/index';
+import { useDispatch } from 'react-redux';
 
 export default React.memo(function Card({moviesData,isLiked=false}) {
   const [hover, setHover] = React.useState(false);
-  const [email,setEmail]=React.useState("netflix@gmail.com")
-  
-
-
+  const [email,setEmail]=React.useState(undefined);
+  const dispatch=useDispatch();
   const navigate=useNavigate();
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
@@ -29,25 +29,16 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
   })
   
 
-  const addTolist=async(email,moviesData)=>{
-    const headers={
-      "Content-Type":"application/json"
-
+  const addToList = async (email, moviesData) => {
+    try {
+      await axios.post("http://localhost:5000/api/user/add", {
+        email,
+        data: moviesData,
+      });
+    } catch (error) {
+      console.log(error);
     }
-    try{
-      const res=await axios.post("http://localhost:5000/api/user/add",{headers:headers},{
-          email,data:moviesData
-      }
-    );
-    console.log(res)
-
-    }
-    catch(err){
-      console.log(err.message)
-    }
-    
-  }
-
+  };
 
   return (
     <Container className='flex column' 
@@ -78,9 +69,9 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
                 />
                 <RiThumbUpFill title = "like" />
                 <RiThumbDownFill title = "dislike" />
-                {isLiked ?(<BsCheck title="Remove From the List"/>)
+                {isLiked ?(<BsCheck title="Remove From the List" onClick={()=>{dispatch(removeMovieFromLiked({movieId:moviesData.id,email}))}}/>)
                 :(<AiOutlinePlus title="Add to the List" onClick={()=>{
-                  addTolist(email,moviesData)
+                  addToList()
                 }}/>)}
                 </div>
                 <div className="info">
@@ -88,9 +79,9 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
                 </div>
                 </div> 
                 <div className="genres flex">
-                <ul className="flex">{moviesData.genres.map((genre,index)=>{
+                {/*<ul className="flex">{moviesData.genres.map((genre,index)=>{
                   <li key={genre}>{genre}</li>
-                })}</ul>
+                })}</ul>*/}
         </div>
         </div>
         </div>
