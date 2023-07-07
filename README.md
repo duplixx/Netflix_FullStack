@@ -1,6 +1,6 @@
 # Netflix FullStack
 
-![Netflix Logo](https://www.edigitalagency.com.au/logos/new-netflix-logo-png/)
+![Netflix Logo](netflix-logo-red-and-black-png.png)
 
 ## Description
 
