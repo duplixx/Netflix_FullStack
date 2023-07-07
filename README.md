@@ -1,6 +1,6 @@
-# Project Name
+# Netflix FullStack
 
-Netflix Fullstack
+![Netflix Logo](https://www.edigitalagency.com.au/logos/new-netflix-logo-png/)
 
 ## Description
 
