@@ -126,7 +126,7 @@ const Container = styled.div`
   .hover {
     z-index: 99;
     height: max-content;
-    width: 20rem;
+    width: 19rem;
     position: absolute;
     top: -18vh;
     left: 0;
@@ -139,18 +139,18 @@ const Container = styled.div`
       height: 140px;
       img {
         width: 100%;
-        height: 140px;
+        height: 100%;
         object-fit: cover;
         border-radius: 0.3rem;
         top: 0;
         z-index: 4;
         position: absolute;
       }
-      video {
+      iframe {
         width: 100%;
-        height: 140px;
+        height: 100%;
         object-fit: cover;
-        border-radius: 0.3rem;
+        border-radius: 12px;
         top: 0;
         z-index: 5;
         position: absolute;

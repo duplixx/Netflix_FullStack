@@ -6,7 +6,8 @@ import video from "../assets/video.mp4";
 import { useDispatch, useSelector } from "react-redux";
 export default function Player() {
   const navigate = useNavigate();
-  const { trailerUrl } = useParams();
+  const trailerUrl = useParams().movieId;
+  console.log(trailerUrl);
 
 
   return (
