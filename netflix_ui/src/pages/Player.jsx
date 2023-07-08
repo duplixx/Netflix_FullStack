@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import video from "../assets/video.mp4";
+import { useDispatch, useSelector } from "react-redux";
 export default function Player() {
   const navigate = useNavigate();
+  const { trailerUrl } = useParams();
+
 
   return (
     <Container>
@@ -12,7 +15,13 @@ export default function Player() {
         <div className="back">
           <BsArrowLeft onClick={() => navigate(-1)} />
         </div>
-        <video src={video} autoPlay loop controls muted />
+        <iframe
+          title="Movie Trailer"
+          src={`https://www.youtube.com/embed/${trailerUrl}?autoplay=1&mute=1`}
+          allowFullScreen
+          width={"100%"}
+          height={"100%"}
+        ></iframe>
       </div>
     </Container>
   );

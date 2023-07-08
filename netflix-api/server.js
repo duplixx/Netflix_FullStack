@@ -2,11 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const url="mongodb+srv://duplix:duplix123@cluster0.wx2bjff.mongodb.net/?retryWrites=true&w=majority"
-
 const userRoutes=require('./routes/userRoutes');
 const app = express();
 
 app.use(cors());
+
+app.use(express.json());
+ 
 mongoose.set('strictQuery', true);
 
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(()=>{

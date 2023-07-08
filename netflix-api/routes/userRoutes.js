@@ -13,7 +13,6 @@ router.get('/', async(req, res) => {
     try{
         const aliens = await userSchema.find({})
         res.json(aliens)
-
     }
     catch(err){
         res.send('Error ' + err)

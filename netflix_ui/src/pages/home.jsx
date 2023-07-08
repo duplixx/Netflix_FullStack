@@ -2,17 +2,33 @@
 import React, { useEffect } from 'react'
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import '@splidejs/splide/css';
 //components
 import Navbar from '../components/Navbar';
 import Slider from '../components/Slider';
 //assets
-import BackgroundImage from '../assets/home.jpg';
+import BackgroundImage0 from '../assets/home.jpg';
+import BackgroundImage1 from '../assets/mi.jpeg';
+import BackgroundImage2 from '../assets/opp.jpg';
+
 import MovieLogo from '../assets/homeTitle.webp';
 //logos
 import { FaPlay } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { fetchMovies, getGenres } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
+import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
+
+// const splide = new Splide( '.splide', {
+//   type   : 'loop',
+//   drag   : 'free',
+//   focus  : 'center',
+//   perPage: 3,
+//   autoScroll: {
+//     speed: 1,
+//   },
+// } );
+
 
 export default function Home() {
     const [isscroll,Setisscroll]=React.useState(false);
@@ -38,15 +54,22 @@ useEffect(() => {
   return (
     <Container>
     
-      <Navbar isScroll={isscroll} />
-
-  
+      
+    <Navbar isScroll={isscroll} />
       <div className="hero">
-        <img
-          src={BackgroundImage}
-          alt="background"
-          className="background-image"
-        />
+      <Splide hasTrack={false} options={{
+        type: 'loop',
+        autoplay: true,
+        interval: 300, // Autoplay interval in milliseconds (e.g., 3000ms = 3 seconds)
+        pauseOnHover: false, // Whether to pause autoplay on hover or not
+      }}>
+      <div className="custom-wrapper">
+        <div className="splide__progress">
+          <div className="splide__progress__bar" />
+        </div>
+        <SplideTrack>
+        <SplideSlide>
+        <img src={BackgroundImage0} alt="Image 1" />
         <div className="container">
           <div className="logo">
             <img src={MovieLogo} alt="Movie Logo" />
@@ -65,6 +88,53 @@ useEffect(() => {
             </button>
           </div>
         </div>
+      </SplideSlide>
+      <SplideSlide>
+        <img src={BackgroundImage1} alt="Image 2" />
+        <div className="container">
+          <div className="logo">
+            <img src={MovieLogo} alt="Movie Logo" />
+          </div>
+          <div className="buttons flex">
+            <button
+              onClick={() => navigate("/player")}
+              className="flex j-center a-center"
+            >
+              <FaPlay />
+              Play
+            </button>
+            <button className="flex j-center a-center">
+              <AiOutlineInfoCircle />
+              More Info
+            </button>
+          </div>
+        </div>
+      </SplideSlide>
+      <SplideSlide>
+        <img src={BackgroundImage2} alt="Image 3" />
+        <div className="container">
+          <div className="logo">
+            <img src={MovieLogo} alt="Movie Logo" />
+          </div>
+          <div className="buttons flex">
+            <button
+              onClick={() => navigate("/player")}
+              className="flex j-center a-center"
+            >
+              <FaPlay />
+              Play
+            </button>
+            <button className="flex j-center a-center">
+              <AiOutlineInfoCircle />
+              More Info
+            </button>
+          </div>
+        </div>
+      </SplideSlide>
+        </SplideTrack>
+      </div>
+    </Splide>
+        
       </div>
       <Slider className="" movies={movies}/>
     </Container>

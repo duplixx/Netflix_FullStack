@@ -21,6 +21,8 @@ import {
     return genres;
   });
   
+
+  
   const createArrayFromRawData = (array, moviesArray, genres) => {
     array.forEach((movie) => {
       const movieGenres = [];

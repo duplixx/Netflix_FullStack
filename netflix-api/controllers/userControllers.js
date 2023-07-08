@@ -1,9 +1,9 @@
 const User = require("../models/userModel");
 
 module.exports.addTolikedMovies = async (req, res) => {
-  
+  console.log(req.body);
   try {
-    const { email, data } = req.body;
+    const {email,data}=req.body;
     if (!email) {
       return res.status(400).json({ msg: "Email required" });
     }
@@ -54,11 +54,13 @@ module.exports.removeFromLikedMovies = async (req, res) => {
       const {email,movieId}=req.body;
       const user=await User.findOne({email});
       if(user){
+        const {likedMovies}=user;
+        const movieIndex=likedMovies.findIndex(({id})=>id===movieId);
         if(!movieIndex){
           return res.json(400,{msg:"Movie not found"})
         }
-        const {likedMovies}=user;
-        const movieIndex=likedMovies.findIndex(({id})=>id===movieId);
+        
+       
         likedMovies.splice(movieIndex,1);
           await User.findByIdAndUpdate(
             user._id,

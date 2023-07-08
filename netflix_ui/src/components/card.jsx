@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import video from '../assets/video.mp4';
@@ -11,13 +11,29 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../utils/firebase.config';
 import axios from 'axios';
 import { removeMovieFromLiked } from '../store/index';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default React.memo(function Card({moviesData,isLiked=false}) {
   const [hover, setHover] = React.useState(false);
   const [email,setEmail]=React.useState(undefined);
   const dispatch=useDispatch();
-  const navigate=useNavigate();
+  const navigate=useNavigate()
+  const [trailerUrl,setTrailerUrl]=React.useState(undefined);
+  const fetchTrailerUrl =  async (id) => {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=3d39d6bfe362592e6aa293f01fbcf9b9`
+    );  
+    setTrailerUrl(data.results[0]?.key);
+  };
+
+  React.useEffect(() => {
+    if (hover && !trailerUrl) {
+      fetchTrailerUrl(moviesData.id);
+    }
+  }, [hover,trailerUrl,moviesData.id]);
+
+
+
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (currentUser) {
@@ -29,49 +45,52 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
   })
   
 
-  const addToList = async (email, moviesData) => {
+  const addToList = async () => {
     try {
-      await axios.post("http://localhost:5000/api/user/add", {
-        email,
-        data: moviesData,
+      await axios.post("http://localhost:5000/api/user/add", 
+      {
+       email:email,
+       data:moviesData
       });
     } catch (error) {
       console.log(error);
     }
+  };
+  const navigateToPlayer = () => {
+    navigate(`/player/${trailerUrl}`);
   };
 
   return (
     <Container className='flex column' 
     onMouseEnter={()=>setHover(true)}
     onMouseLeave={()=>setHover(false)}>
+    
     <img
         src={`https://image.tmdb.org/t/p/w500${moviesData.image}`}
         alt="movie"
-        onClick={() => navigate("/player")}
+        onClick={navigateToPlayer}
       />
       {hover && (
         <div className="hover">
           <div className="image-video-container">
-            <img
-              src={`https://image.tmdb.org/t/p/w500${moviesData.image}`}
-              alt="movie"
-              onClick={() => navigate("/player")}
-            />
-            <video src={video} autoPlay loop muted onClick={() => navigate("/player")} />
-
+            <iframe
+              title="Movie Trailer"
+              src={`https://www.youtube.com/embed/${trailerUrl}?autoplay=0&mute=1`}
+            ></iframe>
+        
           </div>
           <div className="info-container flex-column">
-            <h3 className='name' onClick={() => navigate("/player")} >{moviesData.title}</h3>
+            <h3 className='name' onClick={navigateToPlayer} >{moviesData.title}</h3>
             <div className="icons flex j-between">
               <div className="controls flex">
                 <IoPlayCircleSharp title="play"
-                  onClick={() => navigate("/player")}
+                  onClick={navigateToPlayer}
                 />
                 <RiThumbUpFill title = "like" />
                 <RiThumbDownFill title = "dislike" />
                 {isLiked ?(<BsCheck title="Remove From the List" onClick={()=>{dispatch(removeMovieFromLiked({movieId:moviesData.id,email}))}}/>)
                 :(<AiOutlinePlus title="Add to the List" onClick={()=>{
-                  addToList()
+                  addToList(email,moviesData)
                 }}/>)}
                 </div>
                 <div className="info">
@@ -87,6 +106,7 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
         </div>
       )
       }
+      <h4 className='title'>{moviesData.name}</h4>
     </Container>
   )
 })
