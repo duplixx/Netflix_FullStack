@@ -36,6 +36,9 @@ import {
           name: movie?.original_name ? movie.original_name : movie.original_title,
           image: movie.backdrop_path,
           genres: movieGenres.slice(0, 3),
+          overview: movie.overview,
+          rating: movie.vote_average,
+          poster: movie.poster_path
         });
     });
   };

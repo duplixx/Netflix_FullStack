@@ -7,6 +7,7 @@ import Player from './pages/Player'
 import Signup from './pages/signup'
 import Tvshows from './pages/tvshows'
 import MyList from './pages/mylist'
+import Details from './pages/details'
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/signup" element={<Signup />} />
       <Route exact path="/player/:movieId" element={<Player />} />
+      <Route exact path="/details/:movieId" element={<Details />} />
       <Route path="*" element={<h1>404 Not Found</h1>} />
       <Route exact path="/movies" element={<Movies />} />
       <Route exact path="/tvshows" element={<Tvshows />} />

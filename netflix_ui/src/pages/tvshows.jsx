@@ -9,7 +9,7 @@ import Slider from '../components/Slider';
 import Navbar from '../components/Navbar';
 import SelectGenre from '../components/selectGenre';
 
-export default function Movies() {
+export default React.memo(function Movies() {
     const [isscroll, Setisscroll] = React.useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -23,8 +23,7 @@ export default function Movies() {
     const movies = useSelector((state) => state.netflix.movies);
     useEffect(() => {
         dispatch(getGenres());
-
-    });
+    },[]);
     useEffect(() => {
         if (genresLoaded) {
             dispatch(fetchMovies({ type: "tv" }));
@@ -45,12 +44,12 @@ export default function Movies() {
                 <Navbar isScroll={isscroll} />
             </div>
             <div className="data">
-                <SelectGenre genres={genres} type="tv" />
+                <SelectGenre genres={genres} type="movie" />
                 {movies.length ? <Slider movies={movies} /> : <h1>Movies not Available</h1>}
             </div>
         </Container>
     )
-}
+})
 
 const Container = styled.div`
   .data {

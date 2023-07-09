@@ -18,6 +18,9 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import { fetchMovies, getGenres } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
+import LazyLoad from 'react-lazyload';
+import ReactLoading from "react-loading";
+import Footer from '../components/footer';
 
 // const splide = new Splide( '.splide', {
 //   type   : 'loop',
@@ -31,6 +34,7 @@ import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
 
 
 export default function Home() {
+    const moviesData = useSelector((state) => state.netflix.movies);
     const [isscroll,Setisscroll]=React.useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -40,7 +44,6 @@ export default function Home() {
         return ()=>{(window.onscroll=null)}
         }
     const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-    const movies =useSelector((state)=>state.netflix.movies);
 useEffect(() => {
     dispatch(getGenres());
     
@@ -53,8 +56,6 @@ useEffect(() => {
 
   return (
     <Container>
-    
-      
     <Navbar isScroll={isscroll} />
       <div className="hero">
       <Splide hasTrack={false} options={{
@@ -68,16 +69,22 @@ useEffect(() => {
           <div className="splide__progress__bar" />
         </div>
         <SplideTrack>
-        <SplideSlide>
-        <img src={BackgroundImage0} alt="Image 1" />
-        <div className="container">
-          <div className="logo">
-            <img src={MovieLogo} alt="Movie Logo" />
+        {
+          moviesData.slice(0,4).map((movie,index)=>(
+
+            <SplideSlide key={index}>
+            <LazyLoad>
+            <img src={`https://image.tmdb.org/t/p/original${movie.image}`} alt="okaish" className="w-96 h-auto object-cover" />
+            </LazyLoad>
+            
+            <div className="container ">
+          <div className="ml-[140px]  text-white">
+            <span className='mt-[50px]'><h1 className='z-4 text-6xl font-bold  mt-4'>{movie.name}</h1></span>
           </div>
           <div className="buttons flex">
             <button
-              onClick={() => navigate("/player")}
-              className="flex j-center a-center"
+              onClick={() => navigate(`/player/${movie.id}`)}
+              className="flex j-center a-center "
             >
               <FaPlay />
               Play
@@ -88,55 +95,16 @@ useEffect(() => {
             </button>
           </div>
         </div>
-      </SplideSlide>
-      <SplideSlide>
-        <img src={BackgroundImage1} alt="Image 2" />
-        <div className="container">
-          <div className="logo">
-            <img src={MovieLogo} alt="Movie Logo" />
-          </div>
-          <div className="buttons flex">
-            <button
-              onClick={() => navigate("/player")}
-              className="flex j-center a-center"
-            >
-              <FaPlay />
-              Play
-            </button>
-            <button className="flex j-center a-center">
-              <AiOutlineInfoCircle />
-              More Info
-            </button>
-          </div>
-        </div>
-      </SplideSlide>
-      <SplideSlide>
-        <img src={BackgroundImage2} alt="Image 3" />
-        <div className="container">
-          <div className="logo">
-            <img src={MovieLogo} alt="Movie Logo" />
-          </div>
-          <div className="buttons flex">
-            <button
-              onClick={() => navigate("/player")}
-              className="flex j-center a-center"
-            >
-              <FaPlay />
-              Play
-            </button>
-            <button className="flex j-center a-center">
-              <AiOutlineInfoCircle />
-              More Info
-            </button>
-          </div>
-        </div>
-      </SplideSlide>
+            </SplideSlide>
+          ))
+        }
         </SplideTrack>
-      </div>
+        </div>
     </Splide>
         
       </div>
-      <Slider className="" movies={movies}/>
+      <Slider className="" movies={moviesData}/>
+      <Footer/>
     </Container>
   );
 }
@@ -160,6 +128,7 @@ const Container = styled.div`
           width: 100%;
           height: 100%;
           margin-left: 5rem;
+          z-index: 99;
         }
       }
       .buttons {

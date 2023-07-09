@@ -23,10 +23,10 @@ export default function SelectGenre({genres, type}) {
 }
 
 const Select = styled.select`
-    width: 100%;
+    width: 40wh;
     height: 2.5rem;
     border-radius: 0.2rem;
-    border: none;
+    border: solid 1px white;
     padding-left: 1rem;
     font-size: 1.2rem;
     background-color: #000000b0;

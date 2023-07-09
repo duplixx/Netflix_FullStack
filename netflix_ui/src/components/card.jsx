@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import video from '../assets/video.mp4';
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { AiOutlinePlus } from "react-icons/ai";
+import { BsStarFill } from "react-icons/bs";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
@@ -51,8 +52,12 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
       {
        email:email,
        data:moviesData
-      });
-    } catch (error) {
+      }).then((res)=>{
+        if(res.status===200){
+          alert("added!");
+          };
+      })
+    }catch (error) {
       console.log(error);
     }
   };
@@ -106,7 +111,14 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
         </div>
       )
       }
+      <div className="flex justify-between p-1 rounded-b-2 border-b-2">
       <h4 className='title'>{moviesData.name}</h4>
+      <span className='flex '>
+      <BsStarFill className='bg-yellow-500 m-1 rounded-[150px] shadow-md'/>
+      <h5 className='year text-sm'>{Math.round(moviesData.trating * 10) / 10}</h5>
+      </span>
+      </div>
+      
     </Container>
   )
 })
