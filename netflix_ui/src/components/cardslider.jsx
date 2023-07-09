@@ -29,7 +29,7 @@ export default React.memo(function Cardslider({ data, Title }) {
       onMouseEnter={() => setShowControls(true)}
       onMouseLeave={() => setShowControls(false)}
     >
-      <h1>{Title}</h1>
+      <h1 className='text-3xl'>{Title}</h1>
       <div className="wrapper ">
         <div className={`slider-action left ${!showControls ? "none" : ""} flex j-center a-center`}>
           <AiOutlineLeft onClick={() => HandleDirection("left")} />
@@ -65,6 +65,8 @@ const Container = styled.div`
   }
   .wrapper {
     .slider {
+      display: flex;
+      flex-wrap: nowrap;
       width: max-content;
       gap: 1rem;
       transform: translateX(0px);
@@ -94,3 +96,6 @@ const Container = styled.div`
     }
   }
 `;
+
+
+

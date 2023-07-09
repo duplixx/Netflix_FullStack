@@ -35,6 +35,7 @@ export default function Navbar({ isScroll }) {
     }
   ];
 
+
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
@@ -81,11 +82,13 @@ export default function Navbar({ isScroll }) {
 
   return (
     <Container>
-      <nav className={`${isScroll ? "scrolled" : ""} flex `}>
-        <div className="left flex a-center ">
-          <button className="brand flex a-center j-center" >
-            <img src={logo} alt="Logo" className="" />
-          </button>
+      <nav className={`${isScroll ? "scrolled" : ""} flex`}>
+        <div className="left flex a-center">
+          <Link to="/" aria-label="Home">
+            <button className="brand flex a-center j-center">
+              <img src={logo} alt="Logo" className="" />
+            </button>
+          </Link>
           <ul className="links flex">
             {links.map(({ name, link }) => {
               return (
@@ -97,8 +100,11 @@ export default function Navbar({ isScroll }) {
           </ul>
         </div>
         <div className="right flex a-center">
-          <div className=" w-full flex-cols  ">
-            <div className={`search ${showSearch ? "show-search" : ""}`}>
+          <div className=" w-full flex-cols">
+            <div
+              className={`search ${showSearch ? "show-search" : ""}`}
+              aria-expanded={showSearch}
+            >
               <button
                 onFocus={() => setShowSearch(true)}
                 onBlur={() => {
@@ -106,6 +112,8 @@ export default function Navbar({ isScroll }) {
                     setShowSearch(false);
                   }
                 }}
+                aria-label="Toggle Search"
+                title="Toggle Search"
               >
                 <FaSearch />
               </button>
@@ -121,28 +129,34 @@ export default function Navbar({ isScroll }) {
                   }}
                   value={search}
                   onChange={handleSearch}
+                  aria-label="Search"
                 />
               </form>
-
             </div>
             {showSearch && (
-              <span className="absolute w-48 truncate  ">
+              <div className="absolute w-48 truncate">
                 <ul className="text-black">
                   {searchResults.slice(0, 5).map((r) => (
-                    
-                    <li className="hover:bg-gray-100 p-2 cursor-pointer">
-                    <Link to={`/details/${r.id}`} onClick={() => goDetails(r.id)}
+                    <li
+                      className="hover:bg-gray-100 p-2 cursor-pointer"
+                      key={r.id}
+                      onClick={() => goDetails(r.id)}
                     >
-                      {r.title || r.name}
+                      <Link to={`/details/${r.id}`}>
+                        {r.title || r.name}
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </span>
+              </div>
             )}
-
           </div>
-          <button onClick={() => signOut(firebaseAuth)}>
+          <button
+            onClick={() => signOut(firebaseAuth)}
+            aria-label="Sign Out"
+            title="Sign Out"
+            className="sign-out-button"
+          >
             <FaPowerOff />
           </button>
         </div>
@@ -167,16 +181,20 @@ const Container = styled.div`
     padding: 0 4rem;
     align-items: center;
     transition: 0.3s ease-in-out;
+    
     .left {
       gap: 2rem;
+      
       .brand {
         img {
           height: 4rem;
         }
       }
+      
       .links {
         list-style-type: none;
         gap: 2rem;
+        
         li {
           a {
             color: white;
@@ -185,20 +203,25 @@ const Container = styled.div`
         }
       }
     }
+    
     .right {
       gap: 1rem;
+      
       button {
         background-color: transparent;
         border: none;
         cursor: pointer;
+        
         &:focus {
           outline: none;
         }
+        
         svg {
           color: #f34242;
           font-size: 1.2rem;
         }
       }
+      
       .search {
         display: flex;
         gap: 0.4rem;
@@ -206,17 +229,21 @@ const Container = styled.div`
         justify-content: center;
         padding: 0.2rem;
         padding-left: 0.5rem;
+        
         button {
           background-color: transparent;
           border: none;
+          
           &:focus {
             outline: none;
           }
+          
           svg {
             color: white;
             font-size: 1.2rem;
           }
         }
+        
         input {
           width: 0;
           opacity: 0;
@@ -225,19 +252,52 @@ const Container = styled.div`
           background-color: transparent;
           border: none;
           color: white;
+          
           &:focus {
             outline: none;
           }
         }
       }
+      
       .show-search {
         border: 1px solid white;
         background-color: rgba(0, 0, 0, 0.6);
+        
         input {
           width: 100%;
           opacity: 1;
           visibility: visible;
           padding: 0.3rem;
+        }
+      }
+    }
+  }
+  
+  // Media query for responsive design
+  @media (max-width: 768px) {
+    nav {
+      padding: 0 2rem;
+      
+      .left {
+        .brand {
+          img {
+            height: 3rem;
+          }
+        }
+        
+        .links {
+          display: none;
+        }
+      }
+      
+      .right {
+        .search {
+          display: none;
+        }
+        
+        .show-search {
+          border: none;
+          background-color: transparent;
         }
       }
     }

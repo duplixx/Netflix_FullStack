@@ -72,7 +72,7 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
     
     <img
         src={`https://image.tmdb.org/t/p/w500${moviesData.image}`}
-        alt="movie"
+        alt={moviesData.title}
         onClick={navigateToPlayer}
       />
       {hover && (
@@ -112,10 +112,10 @@ export default React.memo(function Card({moviesData,isLiked=false}) {
       )
       }
       <div className="flex justify-between p-1 rounded-b-2 border-b-2">
-      <h4 className='title'>{moviesData.name}</h4>
+      <h4 className='title truncate pr-4'>{moviesData.name}</h4>
       <span className='flex '>
       <BsStarFill className='bg-yellow-500 m-1 rounded-[150px] shadow-md'/>
-      <h5 className='year text-sm'>{Math.round(moviesData.trating * 10) / 10}</h5>
+      <h5 className='year text-sm'>{Math.round(moviesData.rating * 10) / 10}</h5>
       </span>
       </div>
       

@@ -74,7 +74,7 @@ useEffect(() => {
 
             <SplideSlide key={index}>
             <LazyLoad>
-            <img src={`https://image.tmdb.org/t/p/original${movie.image}`} alt="okaish" className="w-96 h-auto object-cover" />
+            <img src={`https://image.tmdb.org/t/p/original${movie.image}`} alt={movie.name} className="w-96 h-auto object-cover" />
             </LazyLoad>
             
             <div className="container ">
@@ -89,7 +89,7 @@ useEffect(() => {
               <FaPlay />
               Play
             </button>
-            <button className="flex j-center a-center">
+            <button className="flex j-center a-center"  onClick={() => navigate(`/details/${movie.id}`)}>
               <AiOutlineInfoCircle />
               More Info
             </button>
