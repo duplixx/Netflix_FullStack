@@ -61,7 +61,7 @@ useEffect(() => {
       <Splide hasTrack={false} options={{
         type: 'loop',
         autoplay: true,
-        interval: 300, // Autoplay interval in milliseconds (e.g., 3000ms = 3 seconds)
+        interval: 3000, // Autoplay interval in milliseconds (e.g., 3000ms = 3 seconds)
         pauseOnHover: false, // Whether to pause autoplay on hover or not
       }}>
       <div className="custom-wrapper">
@@ -73,9 +73,8 @@ useEffect(() => {
           moviesData.slice(0,4).map((movie,index)=>(
 
             <SplideSlide key={index}>
-            <LazyLoad>
+
             <img src={`https://image.tmdb.org/t/p/original${movie.image}`} alt={movie.name} className="w-96 h-auto object-cover" />
-            </LazyLoad>
             
             <div className="container ">
           <div className="ml-[140px]  text-white">
