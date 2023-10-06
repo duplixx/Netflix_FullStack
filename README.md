@@ -1,6 +1,8 @@
 # MovieFlix - Fullstack Web App
 
 ![MovieFlix Logo](./Netflix-logo-red-black-png.png)
+![MovieFlix Logo](./mapp.png)
+
 
 MovieFlix is a fullstack web app that leverages TMDB API for movie data, ExpressJS for backend, Firebase for authentication, and React for frontend.
 
